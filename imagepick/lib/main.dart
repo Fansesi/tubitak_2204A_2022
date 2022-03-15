@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Disease Identifier',
       theme: ThemeData(
-          primaryColor: HexColor("#0336FF"), //primary: blue
+          primaryColor: HexColor("#0336FF"), 
           //colorScheme: ColorScheme(primary: HexColor("#0336FF") ),
-          canvasColor: HexColor("#FFDE03"), //secondary: yellow
+          canvasColor: HexColor("#FFDE03"), 
           colorScheme: ColorScheme(
               primary: Colors.indigo.shade600,
               primaryVariant: Colors.indigo.shade200,
