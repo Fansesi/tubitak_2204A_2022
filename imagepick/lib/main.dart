@@ -12,91 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-/* NOTES
-
-There are 2 ways to finish this project and get ready to be in the expedition:
-***Using pytorch with flutter:
--https://pub.dev/packages/pytorch_mobile
--https://pytorch.org/mobile/android/
--https://github.com/pytorch/workshops/tree/master/PTMobileWalkthruAndroid
-
-You should first prepare the pytorch model and implement the flutter side of it. 
-
-***Converting pytorch model to tflite:
--https://github.com/gmalivenko/pytorch2keras
--https://learnopencv.com/pytorch-to-tensorflow-model-conversion/
-
-You should convert the pytorch model to .tf format. And then to .tflite format.
-
-
--Checking the .tflite models acc:
-*https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/tools/evaluation/tasks
-
--Optimization of models:
-*https://www.tensorflow.org/lite/performance/model_optimization?hl=en
-*https://www.tensorflow.org/lite/performance/post_training_quant?hl=en
-
--What is metadata? And do I need it? 
-*https://www.tensorflow.org/lite/convert/metadata?hl=en
-
-There are 3 lib options to use tflite:
-1) tflite
-Note: tflite plugin returns an error: The plugin `tflite` uses a deprecated version of the Android embedding.
-To avoid unexpected runtime failures, or future build failures, try to see if this plugin supports the Android 
-V2 embedding. Otherwise, consider removing it since a future release of Flutter will remove these deprecated APIs.
-
-2) tflite_flutter
-3) tflite_flutter_helper
-
-I'm using 3rd option. I tried the 1st option but I was debugging it with Chrome. And as far as 
-I remember there was a problem with that. I don't quite remember it but it wasn't working.
-After that I used it in Virtual Device (VD) and there was another problem as well. 
-If I decide to change the library I used, I'll use tflite. I'm providing some links:
-*https://pub.dev/packages/tflite
-*https://spltech.co.uk/flutter-image-classification-using-tensorflow-in-4-steps/
-
--I've downloaded both commandline-tools and sdkmanager for android studio +
--I think if I use an android emulator there won't be a problem with the tflite lib
-or tflite_flutter lib. +
-
-TO DO:
--Figure out the NormalizeOP variables in classifier_get.dart
-
--Now is the time for keyword search part. You have 3 table to work with. First implement the first one.
-You are going to create a table named table1. You are going to implement the table t databese basically.
-Then you are going to display radio buttons at keywords page and a next button. This way you are going to 
-get boolens of symptoms. After that it is just filtering. There is a problem here though. There might be 2 disease
-that has exactly the same sypmtoms. You can solve this problem by doing this: when you retrive the maps data,
-you are going to check the number of elements in it. If it is bigger than 1 you are going to display all of
-them back-to-back. 
-
--Implement database structure. +
-*You are going to do this by creating a read-only database in the assets folder. 
-Then you are going to get data from it. If you need the update the data (eg. new disease 
-has been trained) you just going to update te database.db and model.tflite! 
-*https://stackoverflow.com/questions/51384175/sqlite-in-flutter-how-database-assets-work/51387985#51387985
-*https://stackoverflow.com/questions/55167439/flutter-where-to-put-own-sqlite-db-file
-*https://blog.devgenius.io/adding-sqlite-db-file-from-the-assets-internet-in-flutter-3ec42c14cd44
-
--Implement ThemeData! +
-
--learn how to get to the another page. I can do predictions and get the predictions confidence.
-I'm going to show lossa text. +
-
--learn how to be mobile-compatiple as much as possible
-      width: MediaQuery.of(context).size.width * 0.35,
-      height: MediaQuery.of(context).size.height * 0.2, 
-MediaQuery might be the way!
-
--you may want to look this site later (in semestr maybe): https://flutterbyexample.com/ 
-
--try using tflite_flutter and make it work son! +
-
--Some sites for tflite_flutter and tflite_flutter_helper:
-*https://github.com/am15h/tflite_flutter_helper
-*https://github.com/am15h/tflite_flutter_helper/tree/master/example/image_classification/lib
-*/
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -330,31 +245,7 @@ cevap vererek tavuklarınzda bulunabilecek olası hastalıklar hakkında bilgi a
             ],
           )),
         ]
-            //drawer: Drawer(
-            //  //backgroundColor: Palette._bgColor,
-            //  child: ListView(
-            //    padding: EdgeInsets.zero,
-            //    children: [
-            //      DrawerHeader(
-            //        decoration: BoxDecoration(
-            //          color: Theme.of(context).backgroundColor,
-            //        ),
-            //        child: Text(
-            //          "Disease Finder",
-            //          style: Theme.of(context).textTheme.headline4,
-            //        ),
-            //      ),
-            //      ListTile(
-            //        title: Text(
-            //          "Exit",
-            //          style: Theme.of(context).textTheme.headline6,
-            //        ),
-            //        onTap: () => exit(0),
-            //      ),
-            //    ],
-            //  ),
-            //),
-            ));
+    ));
   }
 }
 
@@ -439,58 +330,8 @@ class _ViaPhoto extends State<ViaPhoto> {
 
       _predict();
       logger.i("[INFO] Prediction1 func has finished");
-      //_predict2();
-      //logger.i("[INFO] Prediction2 has been made.");
     });
   }
-
-/*  Future classifyImage() async {
-    //Image Classifier using tflite lib
-    print("[INFO] Model is being loaded.");
-    await Tflite.loadModel(model: 'model2.tflite', labels: 'labels.txt');
-    print("[INFO] Problem occured while loading the model!");
-    print("[INFO] Model has loaded.");
-    final output = await Tflite.runModelOnImage(path: imagesPath!);
-    print("[INFO] There is an output to print!");
-    print("This is the output: ");
-    print(output);
-    setState(() {
-      outputOfCNN = output; // output's type is List
-      /*{
-          index: 0,
-          label: "person",    OUTPUT'S FORMAT
-          confidence: 0.629
-        } */
-      _nextButisDisabled = false;
-      _loading = true;
-    });
-  }
-*/
-
-/*  Future classifyImage2() async {
-    //Image Classifier using tflite_flutter and tflite_flutter_helper lib
-    final interpreter = await Interpreter.fromAsset('model2.tflite');
-
-    // For ex: if input tensor shape [1,5] and type is float32
-    var input = [1.23];
-
-    // if output tensor shape [1,2] and type is float32
-    var outputFormat = List.filled(1 * 2, 0).reshape([1, 2]);
-
-    // inference
-    interpreter.run(input, outputFormat);
-
-    // print the output
-    print(outputFormat);
-
-    interpreter.close();
-
-    setState(() {
-      outputOfCNN = outputFormat;
-    });
-    return;
-  }
-*/
 
   void _predict() async {
     logger.i("[INFO] Prediction Operation has been started.");
@@ -580,20 +421,7 @@ class _ViaPhoto extends State<ViaPhoto> {
                   tooltip: "Take Image via Camera",
                   child: const Icon(Icons.camera),
                   foregroundColor: Theme.of(context).colorScheme.onPrimary),
-              //FloatingActionButton(
-              //    backgroundColor: Theme.of(context).colorScheme.primary,
-              //    heroTag: null,
-              //    onPressed: () {
-              //      try {
-              //        //_predictTORCH();
-              //      } catch (e) {
-              //        Navigator.pushNamed(context, "ViaPhoto");
-              //      }
-              //    },
-              //    tooltip: "DEBUG",
-              //    child: const Icon(Icons.dangerous_outlined),
-              //    foregroundColor: Theme.of(context).colorScheme.onPrimary)
-            ], //
+            ], 
           ),
 
 ////////////////// NEXT BUTTON
